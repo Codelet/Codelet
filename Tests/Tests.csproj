@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Codelet.Properties.Tests" Version="0.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Codelet\Codelet.csproj" />
+    <ProjectReference Include="..\Testing\Testing.csproj" />
+  </ItemGroup>
+
+</Project>
