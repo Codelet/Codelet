@@ -4,9 +4,4 @@
     <CompanyName>Codelet</CompanyName>
     <ProjectPrefix>Codelet</ProjectPrefix>
   </PropertyGroup>
-  
-  <PropertyGroup>
-    <DotNetStandardVersion>1.6</DotNetStandardVersion>
-    <DotNetFrameworkVersion>4.6.1</DotNetFrameworkVersion>
-  </PropertyGroup>
 </Project>
