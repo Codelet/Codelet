@@ -50,7 +50,7 @@
     public class RemoveSequence
     {
       [Theory, AutoData]
-      public void RemovesItemsFromCollection(ICollection<int> collection, IEnumerable<int> items)
+      public void RemovesItemsFromCollection(ICollection<int> collection)
       {
         var originalCollection = collection.ToArray();
         collection.RemoveAll(originalCollection.Take(2));
@@ -88,7 +88,7 @@
     public class RemoveArray
     {
       [Theory, AutoData]
-      public void RemovesItemsFromCollection(ICollection<int> collection, int[] items)
+      public void RemovesItemsFromCollection(ICollection<int> collection)
       {
         var originalCollection = collection.ToArray();
         collection.RemoveAll(collection.Take(2).ToArray());
