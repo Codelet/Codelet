@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codelet.Properties.Tests" Version="0.0.13" />
-    <PackageReference Include="xunit.assert" Version="2.2.0" />
+    <PackageReference Include="Codelet.Properties.Tests" Version="0.0.15" />
   </ItemGroup>
 
   <ItemGroup>
