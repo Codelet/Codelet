@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codelet.Properties.Tests" Version="0.0.15" />
+    <PackageReference Include="Codelet.Properties.Tests" Version="0.0.16" />
   </ItemGroup>
 
   <ItemGroup>
