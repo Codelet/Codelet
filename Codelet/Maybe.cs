@@ -3,6 +3,7 @@
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
+  using System.Diagnostics.Contracts;
 
   /// <summary>
   /// Defines an optional value of type <typeparamref name="T"/>.
@@ -118,5 +119,52 @@
     /// </returns>
     public override int GetHashCode()
       => this.HasValue ? this.Value.GetHashCode() : 0;
+
+    /// <summary>
+    /// Resolves maybe into <see cref="Value"/> if <see cref="HasValue"/> is <c>true</c>.
+    /// If resolving is not possible it will return <typeparamref name="T"/> constructed by <paramref name="valueFactory"/>.
+    /// </summary>
+    /// <param name="valueFactory">The value factory.</param>
+    /// <returns>
+    /// <see cref="Value"/> if <see cref="HasValue"/> is <c>true</c>; otherwise, the result of <paramref name="valueFactory"/> execution.
+    /// </returns>
+    /// <exception cref="ArgumentNullException"> Thrown if <paramref name ="valueFactory" /> == <c>null</c>.</exception>
+    [Pure]
+    public T Or(Func<T> valueFactory)
+    {
+      valueFactory = valueFactory ?? throw new ArgumentNullException(nameof(valueFactory));
+
+      return this.HasValue ? this.Value : valueFactory();
+    }
+
+    /// <summary>
+    /// Resolves maybe into <see cref="Value"/> if <see cref="HasValue"/> is <c>true</c>.
+    /// If resolving is not possible it will throw the <typeparamref name="TException"/> constructed by <paramref name="exceptionFactory"/>.
+    /// </summary>
+    /// <typeparam name="TException">The type of the exception.</typeparam>
+    /// <param name="exceptionFactory">The exception factory.</param>
+    /// <returns>
+    /// <see cref="Value"/> if <see cref="HasValue"/> is <c>true</c>; otherwise throws <typeparamref name="TException"/>.
+    /// </returns>
+    /// <exception cref="ArgumentNullException"> Thrown if <paramref name ="exceptionFactory" /> == <c>null</c>.</exception>
+    [Pure]
+    public T OrThrow<TException>(Func<TException> exceptionFactory)
+      where TException : Exception
+    {
+      exceptionFactory = exceptionFactory ?? throw new ArgumentNullException(nameof(exceptionFactory));
+
+      return this.Or(() => throw exceptionFactory());
+    }
+
+    /// <summary>
+    /// Resolves maybe into <see cref="Value"/> if <see cref="HasValue"/> is <c>true</c>.
+    /// If resolving is not possible it will return <c>default(T)</c>.
+    /// </summary>
+    /// <returns>
+    /// <see cref="Value"/> if <see cref="HasValue"/> is <c>true</c>; otherwise, <c>default(T)</c>.
+    /// </returns>
+    [Pure]
+    public T OrDefault()
+      => this.Or(() => default(T));
   }
 }

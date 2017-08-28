@@ -5,12 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codelet.Properties.Tests" Version="0.0.20" />
+    <PackageReference Include="Codelet.Properties.Tests" Version="0.0.22" />
     <PackageReference Include="xunit.assert" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Codelet\Codelet.csproj" />
+    <ProjectReference Include="..\Functional\Functional.csproj" />
     <ProjectReference Include="..\Testing\Testing.csproj" />
   </ItemGroup>
 
