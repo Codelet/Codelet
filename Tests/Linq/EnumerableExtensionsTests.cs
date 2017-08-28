@@ -50,7 +50,7 @@
     public class RemoveSequence
     {
       [Theory, AutoData]
-      public void RemovesItemsFromCollection(ICollection<int> collection, IEnumerable<int> items)
+      public void RemovesItemsFromCollection(ICollection<int> collection)
       {
         var originalCollection = collection.ToArray();
         collection.RemoveAll(originalCollection.Take(2));
@@ -88,7 +88,7 @@
     public class RemoveArray
     {
       [Theory, AutoData]
-      public void RemovesItemsFromCollection(ICollection<int> collection, int[] items)
+      public void RemovesItemsFromCollection(ICollection<int> collection)
       {
         var originalCollection = collection.ToArray();
         collection.RemoveAll(collection.Take(2).ToArray());
@@ -177,24 +177,6 @@
       [Theory, AutoData]
       public void ThrowsIfPredicateIsNull(IEnumerable<string> source)
         => Assert.Throws<ArgumentNullException>("predicate", () => source.None(null));
-    }
-
-    public class SelectWithParameter
-    {
-      [Fact]
-      public void ProjectsElementsWithArgument()
-        => Enumerable
-        .Range(0, 3)
-        .Select((item, extension) => item + extension, 10)
-        .ShouldBeEquivalentTo(Enumerable.Range(10, 3), "because each element in the sequence was increased by 10");
-
-      [Theory, AutoData]
-      public void ThrowsIfSourceIsNull(Func<int, string, bool> selector, string argument)
-        => Assert.Throws<ArgumentNullException>("source", () => EnumerableExtension.Select(null, selector, argument));
-
-      [Theory, AutoData]
-      public void ThrowsIfSelectorIsNull(IEnumerable<int> source, string argument)
-        => Assert.Throws<ArgumentNullException>("selector", () => source.Select((Func<int, string, bool>)null, argument));
     }
 
     public class ForEach
