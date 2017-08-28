@@ -151,32 +151,6 @@
       => !source.Any(predicate);
 
     /// <summary>
-    /// Projects each element of a sequence into a new form using <paramref name="parameter"/> as extra parameter for each projection.
-    /// </summary>
-    /// <typeparam name="T">The type of the elements of the input sequence.</typeparam>
-    /// <typeparam name="TResult">The type of the result.</typeparam>
-    /// <typeparam name="TParameter">The type of the parameter.</typeparam>
-    /// <param name="source">The sequence of items to project.</param>
-    /// <param name="selector">The transform function to apply to each element.</param>
-    /// <param name="parameter">The parameter to pass as second argument to <paramref name="selector"/>.</param>
-    /// <returns>
-    /// The <see cref="IEnumerable{TResult}"/> whose elements are the result
-    /// of invoking the <paramref name="selector"/> on each element of the <paramref name="source"/>.
-    /// </returns>
-    /// <exception cref="ArgumentNullException"> Thrown if <paramref name ="source" /> == <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"> Thrown if <paramref name ="selector" /> == <c>null</c>.</exception>
-    public static IEnumerable<TResult> Select<T, TResult, TParameter>(
-      this IEnumerable<T> source,
-      Func<T, TParameter, TResult> selector,
-      TParameter parameter)
-    {
-      source = source ?? throw new ArgumentNullException(nameof(source));
-      selector = selector ?? throw new ArgumentNullException(nameof(selector));
-
-      return source.Select(item => selector(item, parameter));
-    }
-
-    /// <summary>
     /// Invokes the specified <paramref name="action"/> for each element of the <paramref name="source"/>.
     /// </summary>
     /// <typeparam name="T">The type of the elements of the input sequence.</typeparam>

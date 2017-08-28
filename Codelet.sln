@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Codelet", "Codelet\Codelet.csproj", "{FE5796A9-44D3-4E2B-92AB-1D21CD74B417}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{1AB06DD4-A316-4D36-8918-99878E037E35}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAnnotations", "DataAnnotations\DataAnnotations.csproj", "{74A909DE-ACE0-493D-9414-014D46522E59}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Functional", "Functional\Functional.csproj", "{ED3B9E3B-40C8-4C9D-A0F5-17AE9AEC5994}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +35,15 @@ Global
 		{74A909DE-ACE0-493D-9414-014D46522E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74A909DE-ACE0-493D-9414-014D46522E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74A909DE-ACE0-493D-9414-014D46522E59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED3B9E3B-40C8-4C9D-A0F5-17AE9AEC5994}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED3B9E3B-40C8-4C9D-A0F5-17AE9AEC5994}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED3B9E3B-40C8-4C9D-A0F5-17AE9AEC5994}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED3B9E3B-40C8-4C9D-A0F5-17AE9AEC5994}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0BC95E2F-7E1D-452E-A838-A825E04C8A05}
 	EndGlobalSection
 EndGlobal

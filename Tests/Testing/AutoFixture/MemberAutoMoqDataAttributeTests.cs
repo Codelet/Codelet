@@ -14,8 +14,8 @@
     public static object[][] Data
       => new[]
       {
-        new object[] {"111", 13},
-        new object[] {"222", 15}
+        new object[] { "111", 13 },
+        new object[] { "222", 15 },
       };
 
     [Theory, MemberAutoMoqData(nameof(Data), MemberType = typeof(MemberAutoMoqDataAttributeTests))]

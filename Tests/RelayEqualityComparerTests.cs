@@ -23,7 +23,7 @@
     {
       [Theory, AutoData]
       public void ReturnsHashCodeGeneratedByHasher(Func<string, int> hasher, string lhs, string rhs, bool result)
-        => new RelayEqualityComparer<string>(hasher, (_, __) => result)
+        => new RelayEqualityComparer<string>(hasher, (a, b) => result)
           .Equals(lhs, rhs)
           .Should()
           .Be(result, Because.PassedAsParameter);
