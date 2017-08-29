@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="$(SolutionDir)\$(SolutionName).props" />
+  <Import Project="..\Codelet.props" />
 
   <ItemGroup>
     <PackageReference Include="Codelet.Properties" Version="0.0.22" PrivateAssets="All" />
