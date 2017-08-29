@@ -56,7 +56,7 @@
           var postValues = new Dictionary<string, string>
           {
             { "secret", secret },
-            { "response", value?.ToString() }
+            { "response", value?.ToString() },
           };
 
           using (var content = new FormUrlEncodedContent(postValues))
