@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAnnotations", "DataAnno
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Functional", "Functional\Functional.csproj", "{ED3B9E3B-40C8-4C9D-A0F5-17AE9AEC5994}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cqrs", "Cqrs\Cqrs.csproj", "{F88DE48D-3D4C-4890-8FDA-124D8AC448CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{ED3B9E3B-40C8-4C9D-A0F5-17AE9AEC5994}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED3B9E3B-40C8-4C9D-A0F5-17AE9AEC5994}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED3B9E3B-40C8-4C9D-A0F5-17AE9AEC5994}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F88DE48D-3D4C-4890-8FDA-124D8AC448CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F88DE48D-3D4C-4890-8FDA-124D8AC448CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F88DE48D-3D4C-4890-8FDA-124D8AC448CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F88DE48D-3D4C-4890-8FDA-124D8AC448CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
