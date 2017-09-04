@@ -25,7 +25,7 @@
     {
       selector = selector ?? throw new ArgumentNullException(nameof(selector));
 
-      return maybe.HasValue ? selector(maybe.Value) : Maybe<TResult>.None;
+      return maybe.Select(value => (Maybe<TResult>)selector(value));
     }
 
     /// <summary>
@@ -46,7 +46,7 @@
     {
       selector = selector ?? throw new ArgumentNullException(nameof(selector));
 
-      return maybe.Select<T, Maybe<TResult>>(selector).Unwrap();
+      return maybe.HasValue ? selector(maybe.Value) : Maybe<TResult>.None;
     }
 
     /// <summary>
