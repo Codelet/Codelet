@@ -24,6 +24,18 @@
       }
 
       [Theory, AutoData]
+      public void ReturnsNoneIfSelectorReturnsNull(Maybe<int> maybe)
+      {
+        var result = maybe.Select(value =>
+        {
+          value.Should().Be(maybe.Value, Because.PassedAsParameter);
+          return (string)null;
+        });
+
+        result.Should().Be(Maybe<string>.None, "because the Maybe result was projected to null");
+      }
+
+      [Theory, AutoData]
       public void ThrowsIfSelectorIsNull(Maybe<int> maybe)
         => Assert.Throws<ArgumentNullException>("selector", () => maybe.Select((Func<int, string>)null));
     }
