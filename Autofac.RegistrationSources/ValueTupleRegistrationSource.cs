@@ -1,4 +1,4 @@
-﻿namespace Codelet.Autofac
+﻿namespace Codelet.Autofac.RegistrationSources
 {
   using System;
   using System.Collections.Generic;

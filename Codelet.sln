@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Functional", "Functional\Fu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cqrs", "Cqrs\Cqrs.csproj", "{F88DE48D-3D4C-4890-8FDA-124D8AC448CD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autofacc", "Autofacc\Autofacc.csproj", "{30420A60-FC27-4725-8D25-9A7B737CD9D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autofac.RegistrationSources", "Autofac.RegistrationSources\Autofac.RegistrationSources.csproj", "{6B600BB7-378A-4A35-810B-DEC80EA6015D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,10 @@ Global
 		{F88DE48D-3D4C-4890-8FDA-124D8AC448CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F88DE48D-3D4C-4890-8FDA-124D8AC448CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F88DE48D-3D4C-4890-8FDA-124D8AC448CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{30420A60-FC27-4725-8D25-9A7B737CD9D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{30420A60-FC27-4725-8D25-9A7B737CD9D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{30420A60-FC27-4725-8D25-9A7B737CD9D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{30420A60-FC27-4725-8D25-9A7B737CD9D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B600BB7-378A-4A35-810B-DEC80EA6015D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B600BB7-378A-4A35-810B-DEC80EA6015D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B600BB7-378A-4A35-810B-DEC80EA6015D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B600BB7-378A-4A35-810B-DEC80EA6015D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
