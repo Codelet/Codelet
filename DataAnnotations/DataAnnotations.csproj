@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codelet.Properties" Version="0.0.22" PrivateAssets="All" />
+    <PackageReference Include="Codelet.Properties" Version="0.0.24" PrivateAssets="All" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" />
   </ItemGroup>
