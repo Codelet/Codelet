@@ -63,6 +63,7 @@
         => Assert.Throws<ArgumentNullException>("comparer", () => source.ToDictionary(null));
     }
 
+    /*
     public class ValueTuplesToDictionary
     {
       [Theory, AutoMoqData]
@@ -96,5 +97,6 @@
       public void ThrowsIfComparerIsNull(IEnumerable<(string, int)> source)
         => Assert.Throws<ArgumentNullException>("comparer", () => source.ToDictionary(null));
     }
+    */
   }
 }
