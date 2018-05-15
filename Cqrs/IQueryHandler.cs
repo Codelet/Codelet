@@ -9,7 +9,7 @@
   /// <typeparam name="TQuery">The type of the query.</typeparam>
   /// <typeparam name="TResult">The type of the result.</typeparam>
   public interface IQueryHandler<TQuery, TResult>
-    where TQuery : struct, IQuery<TResult>
+    where TQuery : Query<TResult>
   {
     /// <summary>
     /// Executes the query.
@@ -17,6 +17,6 @@
     /// <param name="query">The query.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The query result.</returns>
-    Task<TResult> HandleAsync(in TQuery query, CancellationToken cancellationToken = default);
+    Task<TResult> HandleAsync(TQuery query, CancellationToken cancellationToken = default);
   }
 }

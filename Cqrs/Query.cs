@@ -1,10 +1,10 @@
 ﻿namespace Codelet.Cqrs
 {
   /// <summary>
-  /// Query marker interface.
+  /// Query marker base class.
   /// </summary>
   /// <typeparam name="TResult">The type of the result.</typeparam>
-  public interface IQuery<TResult>
+  public abstract class Query<TResult>
   {
   }
 }

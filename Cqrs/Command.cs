@@ -1,9 +1,9 @@
 ﻿namespace Codelet.Cqrs
 {
   /// <summary>
-  /// Command marker interface.
+  /// Command marker base class.
   /// </summary>
-  public interface ICommand
+  public abstract class Command
   {
   }
 }

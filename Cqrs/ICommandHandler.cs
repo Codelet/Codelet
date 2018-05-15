@@ -8,7 +8,7 @@
   /// </summary>
   /// <typeparam name="TCommand">The type of the command.</typeparam>
   public interface ICommandHandler<TCommand>
-    where TCommand : struct, ICommand
+    where TCommand : Command
   {
     /// <summary>
     /// Executes the command.
@@ -16,6 +16,6 @@
     /// <param name="command">The command.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The task that represents the process.</returns>
-    Task HandleAsync(in TCommand command, CancellationToken cancellationToken = default);
+    Task HandleAsync(TCommand command, CancellationToken cancellationToken = default);
   }
 }
