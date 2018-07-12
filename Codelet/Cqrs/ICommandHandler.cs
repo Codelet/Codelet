@@ -7,8 +7,7 @@
   /// The command handler.
   /// </summary>
   /// <typeparam name="TCommand">The type of the command.</typeparam>
-  public interface ICommandHandler<TCommand>
-    where TCommand : Command
+  public interface ICommandHandler<in TCommand>
   {
     /// <summary>
     /// Executes the command.

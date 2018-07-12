@@ -8,8 +8,7 @@
   /// </summary>
   /// <typeparam name="TQuery">The type of the query.</typeparam>
   /// <typeparam name="TResult">The type of the result.</typeparam>
-  public interface IQueryHandler<TQuery, TResult>
-    where TQuery : Query<TResult>
+  public interface IQueryHandler<in TQuery, TResult>
   {
     /// <summary>
     /// Executes the query.

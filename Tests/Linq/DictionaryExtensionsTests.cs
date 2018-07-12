@@ -3,6 +3,7 @@
   using System;
   using System.Collections.Generic;
   using System.Linq;
+  using System.Threading.Tasks;
   using Codelet.Testing;
   using Codelet.Testing.AutoFixture;
   using FluentAssertions;
@@ -12,6 +13,64 @@
 
   public class DictionaryExtensionsTests
   {
+    public class GetOrCreate
+    {
+      [Theory, AutoData]
+      public void GetsTheAssosiatedValue(
+        Dictionary<string, int> dictionary,
+        string key,
+        int value,
+        Mock<Func<int>> factory)
+      {
+        dictionary[key] = value;
+
+        dictionary.GetOrCreate(key, factory.Object).Should().Be(value, "because value is in the dictionary");
+        factory.Verify(m => m(), Times.Never);
+      }
+
+      [Theory, AutoData]
+      public void CreatesAndAssosiatesValue(Dictionary<string, int> dictionary, string key, int value)
+        => dictionary.GetOrCreate(key, () => value).Should().Be(value, "because value is in the dictionary");
+
+      [Theory, AutoData]
+      public void ThrowsIfDictionaryIsNull(string key, Func<int> factory)
+        => Assert.Throws<ArgumentNullException>("dictionary", () => DictionaryExtensions.GetOrCreate(null, key, factory));
+
+      [Theory, AutoData]
+      public void ThrowsIfFactoryIsNull(IDictionary<string, int> dictionary, string key)
+        => Assert.Throws<ArgumentNullException>("factory", () => dictionary.GetOrCreate(key, null));
+    }
+
+    public class GetOrCreateAsync
+    {
+      [Theory, AutoData]
+      public async Task GetsTheAssosiatedValue(
+        Dictionary<string, int> dictionary,
+        string key,
+        int value,
+        Mock<Func<Task<int>>> factory)
+      {
+        dictionary[key] = value;
+
+        (await dictionary.GetOrCreateAsync(key, factory.Object)).Should().Be(value, "because value is in the dictionary");
+        factory.Verify(m => m(), Times.Never);
+      }
+
+      [Theory, AutoData]
+      public async Task CreatesAndAssosiatesValue(Dictionary<string, int> dictionary, string key, int value)
+      {
+        (await dictionary.GetOrCreateAsync(key, () => Task.FromResult(value))).Should().Be(value, "because value is in the dictionary");
+      }
+
+      [Theory, AutoData]
+      public Task ThrowsIfDictionaryIsNull(string key, Func<Task<int>> factory)
+        => Assert.ThrowsAsync<ArgumentNullException>("dictionary", () => DictionaryExtensions.GetOrCreateAsync(null, key, factory));
+
+      [Theory, AutoData]
+      public Task ThrowsIfFactoryIsNull(IDictionary<string, int> dictionary, string key)
+        => Assert.ThrowsAsync<ArgumentNullException>("factory", () => dictionary.GetOrCreateAsync(key, null));
+    }
+
     public class AsReadOnly
     {
       [Theory, AutoData]
