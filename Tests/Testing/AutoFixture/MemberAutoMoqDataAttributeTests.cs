@@ -44,7 +44,8 @@
         .GetFrame(0)
         .GetMethod()
         .GetCustomAttributes(true)
-        .OfType<MemberAutoMoqDataAttribute>();
+        .OfType<MemberAutoMoqDataAttribute>()
+        .SingleOrDefault();
 
       attribute.Should().NotBeNull();
 

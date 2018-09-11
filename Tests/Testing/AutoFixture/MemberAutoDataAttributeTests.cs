@@ -39,7 +39,8 @@
         .GetFrame(0)
         .GetMethod()
         .GetCustomAttributes(true)
-        .OfType<MemberAutoDataAttribute>();
+        .OfType<MemberAutoDataAttribute>()
+        .SingleOrDefault();
 
       attribute.Should().NotBeNull();
 
