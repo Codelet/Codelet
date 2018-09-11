@@ -63,7 +63,7 @@
 
         foreach (var handlerMock in handlers)
         {
-          Mock.Get(handlerMock).Verify(m => m.HandleAsync(sender, args, cancellationToken), Times.Once);
+          Mock.Get(handlerMock).Verify(m => m.HandleAsync(sender, args, cancellationToken), Times.Once());
         }
       }
 
@@ -79,7 +79,7 @@
 
         foreach (var handlerMock in handlers)
         {
-          Mock.Get(handlerMock).Verify(m => m.CreateScope(sender), Times.Once);
+          Mock.Get(handlerMock).Verify(m => m.CreateScope(sender), Times.Once());
         }
       }
 
@@ -117,7 +117,7 @@
 
         foreach (var handlerMock in handlers)
         {
-          Mock.Get(handlerMock).Verify(m => m.CreateScope(args), Times.Once);
+          Mock.Get(handlerMock).Verify(m => m.CreateScope(args), Times.Once());
         }
       }
 

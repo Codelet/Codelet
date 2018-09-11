@@ -16,7 +16,7 @@
 
         foreach (var disposable in disposables)
         {
-          Mock.Get(disposable).Verify(m => m.Dispose(), Times.Once);
+          Mock.Get(disposable).Verify(m => m.Dispose(), Times.Once());
         }
       }
 

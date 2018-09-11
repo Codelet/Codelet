@@ -25,7 +25,7 @@
         dictionary[key] = value;
 
         dictionary.GetOrCreate(key, factory.Object).Should().Be(value, "because value is in the dictionary");
-        factory.Verify(m => m(), Times.Never);
+        factory.Verify(m => m(), Times.Never());
       }
 
       [Theory, AutoData]
@@ -53,7 +53,7 @@
         dictionary[key] = value;
 
         (await dictionary.GetOrCreateAsync(key, factory.Object)).Should().Be(value, "because value is in the dictionary");
-        factory.Verify(m => m(), Times.Never);
+        factory.Verify(m => m(), Times.Never());
       }
 
       [Theory, AutoData]
