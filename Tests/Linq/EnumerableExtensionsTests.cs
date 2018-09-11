@@ -118,7 +118,7 @@
 
       [Fact]
       public void ThrowsIfSourceIsNull()
-        => Assert.Throws<ArgumentNullException>("source", () => EnumerableExtension.Concat(null, string.Empty));
+        => Assert.Throws<ArgumentNullException>("first", () => EnumerableExtension.Concat(null, string.Empty));
     }
 
     public class Distinct
