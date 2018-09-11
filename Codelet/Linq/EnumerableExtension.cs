@@ -90,15 +90,16 @@
     }
 
     /// <summary>
-    /// Concatenates the specified <paramref name="source"/> with the specified <paramref name="item"/>.
+    /// Concatenates two sequences.
     /// </summary>
     /// <typeparam name="T">The type of the elements of the input sequence.</typeparam>
-    /// <param name="source">The sequence to concatenate.</param>
-    /// <param name="item">The item to concatenate.</param>
-    /// <returns>An <see cref="IEnumerable{T}"/> that contains the concatenated elements.</returns>
-    /// <exception cref="ArgumentNullException"> Thrown if <paramref name ="source" /> == <c>null</c>.</exception>
-    public static IEnumerable<T> Concat<T>(this IEnumerable<T> source, T item)
-      => (source ?? throw new ArgumentNullException(nameof(source))).Concat(new[] { item });
+    /// <param name="first">The first sequence to concatenate.</param>
+    /// <param name="second">The sequence to concatenate to the first sequence.</param>
+    /// <returns>An <see cref="IEnumerable{T}"/> that contains the concatenated elements of the two input sequences.</returns>
+    /// <exception cref="ArgumentNullException"> Thrown if <paramref name ="first" /> == <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"> Thrown if <paramref name ="second" /> == <c>null</c>.</exception>
+    public static IEnumerable<T> Concat<T>(this IEnumerable<T> first, params T[] second)
+      => Enumerable.Concat(first, second);
 
     /// <summary>
     ///  Returns distinct elements from a <paramref name="source"/> by comparing the projected values.
