@@ -43,7 +43,8 @@
       var attribute = new StackTrace()
         .GetFrame(0)
         .GetMethod()
-        .GetAttribute<MemberAutoMoqDataAttribute>();
+        .GetCustomAttributes(true)
+        .OfType<MemberAutoMoqDataAttribute>();
 
       attribute.Should().NotBeNull();
 

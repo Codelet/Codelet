@@ -38,7 +38,8 @@
       var attribute = new StackTrace()
         .GetFrame(0)
         .GetMethod()
-        .GetAttribute<MemberAutoDataAttribute>();
+        .GetCustomAttributes(true)
+        .OfType<MemberAutoDataAttribute>();
 
       attribute.Should().NotBeNull();
 

@@ -122,7 +122,7 @@
 
         var result = Maybe<int>.None.Where(predicate.Object);
 
-        predicate.Verify(m => m(It.IsAny<int>()), Times.Never);
+        predicate.Verify(m => m(It.IsAny<int>()), Times.Never());
         result.Should().Be(Maybe<int>.None, "because the Maybe is None");
       }
 
