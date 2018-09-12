@@ -24,6 +24,7 @@
       : base(model)
     {
       this.Timer.Start();
+      this.SkipFirstEventsTransfer = true;
     }
 
     /// <summary>
@@ -33,7 +34,10 @@
     protected DomainModelDatabaseEntity()
     {
       this.Timer.Start();
+      this.SkipFirstEventsTransfer = false;
     }
+
+    private bool SkipFirstEventsTransfer { get; set; }
 
     private DateTimeOffset Created { get; } = DateTimeOffset.UtcNow;
 
@@ -43,11 +47,12 @@
       = new ConcurrentBag<Func<IDomainEventsSerializer, DomainEventDatabaseEntity>>();
 
     /// <inheritdoc />
-    public IEnumerable<DomainEventDatabaseEntity> TransferDomainEvents(
+    IEnumerable<DomainEventDatabaseEntity> IDomainModelDatabaseEntity.TransferDomainEvents(
       IDomainEventsSerializer serializer)
     {
-      if (this.Id == default)
+      if (this.SkipFirstEventsTransfer)
       {
+        this.SkipFirstEventsTransfer = false;
         yield break;
       }
 
