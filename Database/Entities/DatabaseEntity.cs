@@ -1,6 +1,7 @@
 ﻿namespace Codelet.Database.Entities
 {
   using System;
+  using Microsoft.Extensions.Logging;
 
   /// <summary>
   /// The database entity base class.
@@ -24,6 +25,6 @@
     public TIdentifier Id { get; set; }
 
     /// <inheritdoc />
-    public abstract void Synchronize();
+    public abstract void Synchronize(ILogger logger);
   }
 }

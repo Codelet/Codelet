@@ -1,5 +1,7 @@
 ﻿namespace Codelet.Database.Entities
 {
+  using Microsoft.Extensions.Logging;
+
   /// <summary>
   /// The database entity.
   /// </summary>
@@ -8,9 +10,10 @@
     /// <summary>
     /// Synchronizes this database entity to have all actual values.
     /// </summary>
+    /// <param name="logger">The logger.</param>
     /// <remarks>
     /// Usually is called before commit to make sure database receives the latest data.
     /// </remarks>
-    void Synchronize();
+    void Synchronize(ILogger logger);
   }
 }

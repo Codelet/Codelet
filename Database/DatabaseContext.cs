@@ -8,6 +8,7 @@
   using System.Threading.Tasks;
   using Codelet.Database.Entities;
   using Microsoft.EntityFrameworkCore;
+  using Microsoft.Extensions.Logging;
 
   /// <summary>
   /// The database context.
@@ -18,10 +19,18 @@
     /// Initializes a new instance of the <see cref="DatabaseContext" /> class.
     /// </summary>
     /// <param name="options">The options.</param>
-    protected DatabaseContext(DbContextOptions options)
+    /// <param name="logger">The logger.</param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="logger" /> == <c>null</c>.</exception>
+    protected DatabaseContext(DbContextOptions options, ILogger<DatabaseContext> logger)
       : base(options)
     {
+      this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
+
+    /// <summary>
+    /// Gets the logger.
+    /// </summary>
+    protected ILogger Logger { get; }
 
     /// <summary>
     /// Gets the configuration classes.
@@ -42,7 +51,7 @@
     {
       foreach (var entity in this.Entities().ToArray())
       {
-        entity.Synchronize();
+        entity.Synchronize(this.Logger);
       }
 
       return await base

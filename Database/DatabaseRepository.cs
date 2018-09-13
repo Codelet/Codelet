@@ -9,6 +9,7 @@
   using Codelet.Domain;
   using Codelet.Linq;
   using Microsoft.EntityFrameworkCore;
+  using Microsoft.Extensions.Logging;
 
   /// <summary>
   /// The database repository base class.
@@ -25,15 +26,24 @@
     /// </summary>
     /// <param name="database">The database.</param>
     /// <param name="configuration">The configuration (can be <c>null</c>).</param>
+    /// <param name="logger">The logger.</param>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="database" /> == <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="logger" /> == <c>null</c>.</exception>
     protected DatabaseRepository(
       DbContext database,
-      IDatabaseEntityConfiguration<TDatabaseEntity> configuration)
+      IDatabaseEntityConfiguration<TDatabaseEntity> configuration,
+      ILogger<DatabaseRepository<TModel, TDatabaseEntity, TDatabaseEntityId>> logger)
     {
       this.Database = database ?? throw new ArgumentNullException(nameof(database));
       this.DbSet = this.Database.Set<TDatabaseEntity>();
       this.Entities = configuration?.ConfigureIncludes(this.DbSet) ?? this.DbSet;
+      this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
+
+    /// <summary>
+    /// Gets the logger.
+    /// </summary>
+    protected ILogger Logger { get; }
 
     /// <summary>
     /// Gets the database.
@@ -62,7 +72,7 @@
       model = model ?? throw new ArgumentNullException(nameof(model));
 
       var entity = this.CreateEntity(model);
-      entity.Synchronize();
+      entity.Synchronize(this.Logger);
 
       this.DbSet.Add(entity);
     }
