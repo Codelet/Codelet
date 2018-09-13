@@ -4,6 +4,7 @@
   using System.ComponentModel.DataAnnotations;
   using Codelet.Database.Entities;
   using Codelet.Domain;
+  using Microsoft.Extensions.Logging;
   using Newtonsoft.Json;
 
   /// <summary>
@@ -91,7 +92,7 @@
       => JsonConvert.DeserializeObject<ISerializedDomainEvent>(this.Content, Settings).Deserialize(factory);
 
     /// <inheritdoc />
-    public override void Synchronize()
+    public override void Synchronize(ILogger logger)
     {
     }
 

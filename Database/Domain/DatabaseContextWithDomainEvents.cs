@@ -7,6 +7,7 @@
   using System.Threading.Tasks;
   using Codelet.Linq;
   using Microsoft.EntityFrameworkCore;
+  using Microsoft.Extensions.Logging;
 
   /// <summary>
   /// The database context with domain events.
@@ -17,12 +18,14 @@
     /// Initializes a new instance of the <see cref="DatabaseContextWithDomainEvents" /> class.
     /// </summary>
     /// <param name="options">The options.</param>
+    /// <param name="logger">The logger.</param>
     /// <param name="domainEventsSerializer">The domain events serializer.</param>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="domainEventsSerializer" /> == <c>null</c>.</exception>
     protected DatabaseContextWithDomainEvents(
       DbContextOptions options,
+      ILogger<DatabaseContextWithDomainEvents> logger,
       IDomainEventsSerializer domainEventsSerializer)
-      : base(options)
+      : base(options, logger)
     {
       this.DomainEventsSerializer = domainEventsSerializer ?? throw new ArgumentNullException(nameof(domainEventsSerializer));
     }
@@ -65,6 +68,11 @@
           .ConfigureAwait(false);
       }
 
+      foreach (var domainEvent in this.DomainEvents.Select(this.Entry))
+      {
+        domainEvent.State = EntityState.Detached;
+      }
+
       return result;
     }
 
@@ -80,11 +88,6 @@
         .DomainEvents
         .AddRangeAsync(domainEvents, cancellationToken)
         .ConfigureAwait(false);
-
-      foreach (var domainEvent in this.DomainEvents.Select(this.Entry))
-      {
-        domainEvent.State = EntityState.Detached;
-      }
 
       return domainEvents;
     }
