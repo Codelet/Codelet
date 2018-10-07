@@ -61,24 +61,24 @@
     /// <summary>
     /// Creates a new instance of the <see cref="DomainEventDatabaseEntity" /> class.
     /// </summary>
-    /// <typeparam name="TDomainModel">The type of the domain model.</typeparam>
-    /// <typeparam name="TDomainEventArgs">The type of the domain event arguments.</typeparam>
     /// <typeparam name="TDatabaseEntity">The type of the database entity.</typeparam>
     /// <typeparam name="TDatabaseEntityId">The type of the database entity identifier.</typeparam>
+    /// <typeparam name="TDomainModel">The type of the domain model.</typeparam>
+    /// <typeparam name="TDomainEventArgs">The type of the domain event arguments.</typeparam>
     /// <param name="occured">The moment when the domain event occured.</param>
     /// <param name="databaseEntityId">The database entity identifier.</param>
     /// <param name="serializedDomainArgs">The serialized domain arguments.</param>
     /// <returns>The domain event database entity.</returns>
-    public static DomainEventDatabaseEntity Create<TDomainModel, TDomainEventArgs, TDatabaseEntity, TDatabaseEntityId>(
+    public static DomainEventDatabaseEntity Create<TDatabaseEntity, TDatabaseEntityId, TDomainModel, TDomainEventArgs>(
       DateTimeOffset occured,
       TDatabaseEntityId databaseEntityId,
       string serializedDomainArgs)
       where TDomainModel : DomainModel
       where TDomainEventArgs : DomainEventArgs<TDomainModel>
-      where TDatabaseEntity : class, IDatabaseEntityWithId<TDatabaseEntityId>, IDatabaseEntityWithModel<TDomainModel>, IDatabaseEntity
+      where TDatabaseEntity : class, IDatabaseEntityWithId<TDatabaseEntityId>, IDatabaseEntityWithModel<TDomainModel>
       => new DomainEventDatabaseEntity(
         occured,
-        new SerializedDomainEvent<TDomainModel, TDomainEventArgs, TDatabaseEntity, TDatabaseEntityId>(
+        new SerializedDomainEvent<TDatabaseEntity, TDatabaseEntityId, TDomainModel, TDomainEventArgs>(
           databaseEntityId,
           serializedDomainArgs));
 
@@ -99,19 +99,19 @@
     /// <summary>
     /// Generic serialized domain event type.
     /// </summary>
-    /// <typeparam name="TDomainModel">The type of the domain model.</typeparam>
-    /// <typeparam name="TDomainEventArgs">The type of the domain event arguments.</typeparam>
     /// <typeparam name="TDatabaseEntity">The type of the database entity.</typeparam>
     /// <typeparam name="TDatabaseEntityId">The type of the database entity identifier.</typeparam>
+    /// <typeparam name="TDomainModel">The type of the domain model.</typeparam>
+    /// <typeparam name="TDomainEventArgs">The type of the domain event arguments.</typeparam>
     /// <seealso cref="Codelet.Database.Domain.DomainEventDatabaseEntity.ISerializedDomainEvent" />
-    private class SerializedDomainEvent<TDomainModel, TDomainEventArgs, TDatabaseEntity, TDatabaseEntityId>
+    private class SerializedDomainEvent<TDatabaseEntity, TDatabaseEntityId, TDomainModel, TDomainEventArgs>
       : ISerializedDomainEvent
       where TDomainModel : DomainModel
       where TDomainEventArgs : DomainEventArgs<TDomainModel>
-      where TDatabaseEntity : class, IDatabaseEntityWithId<TDatabaseEntityId>, IDatabaseEntityWithModel<TDomainModel>, IDatabaseEntity
+      where TDatabaseEntity : class, IDatabaseEntityWithId<TDatabaseEntityId>, IDatabaseEntityWithModel<TDomainModel>
     {
       /// <summary>
-      /// Initializes a new instance of the <see cref="SerializedDomainEvent{TDomainModel, TDomainEventArgs, TDatabaseEntity, TDatabaseEntityId}"/> class.
+      /// Initializes a new instance of the <see cref="SerializedDomainEvent{TDatabaseEntity, TDatabaseEntityId, TDomainModel, TDomainEventArgs}"/> class.
       /// </summary>
       /// <param name="databaseEntityId">The database entity identifier.</param>
       /// <param name="serializedDomainArgs">The serialized domain arguments.</param>
@@ -136,7 +136,7 @@
       /// <inheritdoc />
       public DomainEventDispatcher Deserialize(IDomainEventsDispatcherFactory factory)
       {
-        return factory.Create<TDomainModel, TDomainEventArgs, TDatabaseEntity, TDatabaseEntityId>(
+        return factory.Create<TDatabaseEntity, TDatabaseEntityId, TDomainModel, TDomainEventArgs>(
           this.DatabaseEntityId,
           this.SerializedDomainArgs);
       }

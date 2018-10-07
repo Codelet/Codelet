@@ -114,7 +114,7 @@
           this.Database.DomainEvents.Remove(oldestEvent);
 
           await this.Database
-            .SaveChangesAsync(cancellationToken)
+            .CommitAsync(cancellationToken)
             .ConfigureAwait(false);
         }
         catch (TaskCanceledException)

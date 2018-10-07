@@ -1,42 +1,35 @@
 ﻿namespace Codelet.Database
 {
   using System;
-  using System.Collections.Generic;
-  using System.Linq;
   using System.Threading;
   using System.Threading.Tasks;
   using Codelet.Database.Entities;
   using Codelet.Domain;
-  using Codelet.Linq;
-  using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.Logging;
 
   /// <summary>
   /// The database repository base class.
   /// </summary>
-  /// <typeparam name="TModel">The type of the model.</typeparam>
   /// <typeparam name="TDatabaseEntity">The type of the database entity.</typeparam>
   /// <typeparam name="TDatabaseEntityId">The type of the database entity identifier.</typeparam>
-  public abstract class DatabaseRepository<TModel, TDatabaseEntity, TDatabaseEntityId>
-    where TModel : DomainModel
+  /// <typeparam name="TModel">The type of the model.</typeparam>
+  public abstract class DatabaseRepository<TDatabaseEntity, TDatabaseEntityId, TModel>
     where TDatabaseEntity : class, IDatabaseEntity, IDatabaseEntityWithId<TDatabaseEntityId>, IDatabaseEntityWithModel<TModel>
+    where TModel : DomainModel
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="DatabaseRepository{TModel, TDatabaseEntity, TDatabaseEntityId}" /> class.
     /// </summary>
     /// <param name="database">The database.</param>
-    /// <param name="configuration">The configuration (can be <c>null</c>).</param>
     /// <param name="logger">The logger.</param>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="database" /> == <c>null</c>.</exception>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="logger" /> == <c>null</c>.</exception>
     protected DatabaseRepository(
-      DbContext database,
-      IDatabaseEntityConfiguration<TDatabaseEntity> configuration,
-      ILogger<DatabaseRepository<TModel, TDatabaseEntity, TDatabaseEntityId>> logger)
+      DatabaseContext database,
+      ILogger<DatabaseRepository<TDatabaseEntity, TDatabaseEntityId, TModel>> logger)
     {
-      this.Database = database ?? throw new ArgumentNullException(nameof(database));
-      this.DbSet = this.Database.Set<TDatabaseEntity>();
-      this.Entities = configuration?.ConfigureIncludes(this.DbSet) ?? this.DbSet;
+      database = database ?? throw new ArgumentNullException(nameof(database));
+      this.Entities = database.Set<TDatabaseEntity>();
       this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -46,21 +39,9 @@
     protected ILogger Logger { get; }
 
     /// <summary>
-    /// Gets the database.
+    /// Gets the entities.
     /// </summary>
-    protected DbContext Database { get; }
-
-    /// <summary>
-    /// Gets the entities query.
-    /// </summary>
-    protected IQueryable<TDatabaseEntity> Entities { get; }
-
-    /// <summary>
-    /// Gets the local entities.
-    /// </summary>
-    protected IEnumerable<TDatabaseEntity> Local => this.DbSet.Local;
-
-    private DbSet<TDatabaseEntity> DbSet { get; }
+    protected IDbSet<TDatabaseEntity> Entities { get; }
 
     /// <summary>
     /// Adds the specified model to the repository.
@@ -74,7 +55,7 @@
       var entity = this.CreateEntity(model);
       entity.Synchronize(this.Logger);
 
-      this.DbSet.Add(entity);
+      this.Entities.Add(entity);
     }
 
     /// <summary>
@@ -87,10 +68,11 @@
       model = model ?? throw new ArgumentNullException(nameof(model));
 
       var entity = this
+        .Entities
         .FindEntityByModel(model)
         .OrThrow(() => new InvalidOperationException("Can't remove entity that is not in the database."));
 
-      this.DbSet.Remove(entity);
+      this.Entities.Remove(entity);
     }
 
     /// <summary>
@@ -104,30 +86,12 @@
       CancellationToken cancellationToken = default)
     {
       var entity = await this
+        .Entities
         .FindEntityByIdAsync(id, cancellationToken)
         .ConfigureAwait(false);
 
       return entity?.Model;
     }
-
-    /// <summary>
-    /// Finds the entity by identifier.
-    /// </summary>
-    /// <param name="id">The identifier.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>The found entity.</returns>
-    protected Task<TDatabaseEntity> FindEntityByIdAsync(
-      TDatabaseEntityId id,
-      CancellationToken cancellationToken = default)
-      => this.Entities.FirstOrDefaultAsync(e => e.Id.Equals(id), cancellationToken);
-
-    /// <summary>
-    /// Finds the entity by model.
-    /// </summary>
-    /// <param name="model">The model.</param>
-    /// <returns>The found entity.</returns>
-    protected Maybe<TDatabaseEntity> FindEntityByModel(TModel model)
-      => this.DbSet.Local.FirstOrNone(entity => entity.Model == model);
 
     /// <summary>
     /// Creates the entity.

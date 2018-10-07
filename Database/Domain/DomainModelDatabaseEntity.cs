@@ -72,7 +72,7 @@
       where TDatabaseEntity : DomainModelDatabaseEntity<TIdentifier, TModel>
       where TDomainEventArgs : DomainEventArgs<TModel>
       => this.DomainEvents.Add(serializer
-        => DomainEventDatabaseEntity.Create<TModel, TDomainEventArgs, TDatabaseEntity, TIdentifier>(
+        => DomainEventDatabaseEntity.Create<TDatabaseEntity, TIdentifier, TModel, TDomainEventArgs>(
           this.Created + this.Timer.Elapsed,
           this.Id,
           serializer.Serialize<TModel, TDomainEventArgs>(args)));

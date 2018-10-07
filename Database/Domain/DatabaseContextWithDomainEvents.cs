@@ -17,15 +17,17 @@
     /// <summary>
     /// Initializes a new instance of the <see cref="DatabaseContextWithDomainEvents" /> class.
     /// </summary>
+    /// <param name="accessMode">The database access mode.</param>
     /// <param name="options">The options.</param>
     /// <param name="logger">The logger.</param>
     /// <param name="domainEventsSerializer">The domain events serializer.</param>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="domainEventsSerializer" /> == <c>null</c>.</exception>
     protected DatabaseContextWithDomainEvents(
+      DatabaseAccess accessMode,
       DbContextOptions options,
       ILogger<DatabaseContextWithDomainEvents> logger,
       IDomainEventsSerializer domainEventsSerializer)
-      : base(options, logger)
+      : base(accessMode, options, logger)
     {
       this.DomainEventsSerializer = domainEventsSerializer ?? throw new ArgumentNullException(nameof(domainEventsSerializer));
     }
@@ -34,7 +36,13 @@
     /// Gets the domain events.
     /// </summary>
     public DbSet<DomainEventDatabaseEntity> DomainEvents
-      => this.Set<DomainEventDatabaseEntity>();
+      => this.Context.Set<DomainEventDatabaseEntity>();
+
+    /// <inheritdoc />
+    protected override IEnumerable<Type> EntityClasses
+      => base
+        .EntityClasses
+        .Concat(typeof(DomainEventDatabaseEntity));
 
     /// <inheritdoc />
     protected override IEnumerable<Type> ConfigurationClasses
@@ -45,16 +53,14 @@
     private IDomainEventsSerializer DomainEventsSerializer { get; }
 
     /// <inheritdoc />
-    public override async Task<int> SaveChangesAsync(
-      bool acceptAllChangesOnSuccess,
-      CancellationToken cancellationToken = default)
+    public override async Task CommitAsync(CancellationToken cancellationToken = default)
     {
       await this
         .TransferDomainEventsAsync(cancellationToken)
         .ConfigureAwait(false);
 
-      var result = await base
-        .SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken)
+      await base
+        .CommitAsync(cancellationToken)
         .ConfigureAwait(false);
 
       var domainEvents = await this
@@ -63,17 +69,15 @@
 
       if (domainEvents.Count != 0)
       {
-        result += await base
-          .SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken)
+        await base
+          .CommitAsync(cancellationToken)
           .ConfigureAwait(false);
       }
 
-      foreach (var domainEvent in this.DomainEvents.Select(this.Entry))
+      foreach (var domainEvent in this.DomainEvents.Select(this.Context.Entry))
       {
         domainEvent.State = EntityState.Detached;
       }
-
-      return result;
     }
 
     private async Task<IReadOnlyCollection<DomainEventDatabaseEntity>> TransferDomainEventsAsync(
