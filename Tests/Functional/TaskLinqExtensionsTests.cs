@@ -2,10 +2,10 @@
 {
   using System;
   using System.Threading.Tasks;
+  using AutoFixture.Xunit2;
   using Codelet.Testing;
   using FluentAssertions;
   using Moq;
-  using Ploeh.AutoFixture.Xunit2;
   using Xunit;
 
   public class TaskLinqExtensionsTests

@@ -3,8 +3,8 @@
   using System;
   using System.Collections.Generic;
   using System.Linq;
+  using AutoFixture.Xunit2;
   using FluentAssertions;
-  using Ploeh.AutoFixture.Xunit2;
   using Xunit;
 
   public class EnumerableExtensionsTests
@@ -16,7 +16,7 @@
       {
         var originalCollection = collection.ToArray();
         collection.AddRange(items);
-        collection.ShouldBeEquivalentTo(originalCollection.Concat(items), "because items were added to original collection");
+        collection.Should().BeEquivalentTo(originalCollection.Concat(items), "because items were added to original collection");
       }
 
       [Theory, AutoData]
@@ -35,7 +35,7 @@
       {
         var originalCollection = collection.ToArray();
         collection.AddRange(items);
-        collection.ShouldBeEquivalentTo(originalCollection.Concat(items), "because items were added to original collection");
+        collection.Should().BeEquivalentTo(originalCollection.Concat(items), "because items were added to original collection");
       }
 
       [Theory, AutoData]
@@ -54,7 +54,7 @@
       {
         var originalCollection = collection.ToArray();
         collection.RemoveAll(originalCollection.Take(2));
-        collection.ShouldBeEquivalentTo(originalCollection.Skip(2), "because items were removed from original collection");
+        collection.Should().BeEquivalentTo(originalCollection.Skip(2), "because items were removed from original collection");
       }
 
       [Theory, AutoData]
@@ -73,7 +73,7 @@
       {
         var originalCollection = collection.ToArray();
         collection.RemoveAll(originalCollection.Take(2).Contains);
-        collection.ShouldBeEquivalentTo(originalCollection.Skip(2), "because items were removed from original collection");
+        collection.Should().BeEquivalentTo(originalCollection.Skip(2), "because items were removed from original collection");
       }
 
       [Theory, AutoData]
@@ -92,7 +92,7 @@
       {
         var originalCollection = collection.ToArray();
         collection.RemoveAll(collection.Take(2).ToArray());
-        collection.ShouldBeEquivalentTo(originalCollection.Skip(2), "because items were removed from original collection");
+        collection.Should().BeEquivalentTo(originalCollection.Skip(2), "because items were removed from original collection");
       }
 
       [Theory, AutoData]
@@ -113,7 +113,7 @@
         var expected = source.ToList();
         expected.Add(value);
 
-        result.AsEnumerable().ShouldBeEquivalentTo(expected, "because item was concatenated to the sequence");
+        result.AsEnumerable().Should().BeEquivalentTo(expected, "because item was concatenated to the sequence");
       }
 
       [Fact]
@@ -128,7 +128,7 @@
         => Enumerable
         .Range(1, 10)
         .Distinct(item => item < 5 ? item : 5)
-        .ShouldBeEquivalentTo(Enumerable.Range(1, 5), "because 5 and larger elements are considered equal");
+        .Should().BeEquivalentTo(Enumerable.Range(1, 5), "because 5 and larger elements are considered equal");
 
       [Theory, AutoData]
       public void ThrowsIfSourceIsNull(Func<int, string> selector)
@@ -187,7 +187,7 @@
         var result = new List<int>();
         source.ForEach(result.Add);
 
-        result.AsEnumerable().ShouldBeEquivalentTo(source, "because each item had to be moved to result collection");
+        result.AsEnumerable().Should().BeEquivalentTo(source, "because each item had to be moved to result collection");
       }
 
       [Theory, AutoData]

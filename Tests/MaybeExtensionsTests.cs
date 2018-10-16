@@ -1,8 +1,8 @@
 ﻿namespace Codelet
 {
   using System.Collections.Generic;
+  using AutoFixture.Xunit2;
   using FluentAssertions;
-  using Ploeh.AutoFixture.Xunit2;
   using Xunit;
 
   public class MaybeExtensionsTests

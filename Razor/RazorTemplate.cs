@@ -1,53 +1,63 @@
 ﻿namespace Codelet.Razor
 {
+  using System;
   using System.IO;
-  using System.Threading;
   using System.Threading.Tasks;
-  using Microsoft.AspNetCore.Razor.Language;
-  using Microsoft.CodeAnalysis.CSharp.Scripting;
-  using Microsoft.CodeAnalysis.Scripting;
 
   /// <summary>
-  /// Base class for Razor templates.
+  /// Base class for compiled Razor template.
   /// </summary>
-  public abstract class RazorTemplate : IRazorTemplate
+  public abstract class RazorTemplate
   {
     /// <summary>
-    /// Gets the script runner.
+    /// Gets the model.
     /// </summary>
-    protected abstract ScriptRunner<string> Script { get; }
+    protected dynamic Model { get; private set; }
 
-    /// <inheritdoc />
-    public Task<string> ExecuteAsync<TModel>(TModel model, CancellationToken cancellationToken = default)
-      => this.Script(new Globals { Model = model }, cancellationToken);
+    private Action<string> WriteLiteralDelegate { get; set; }
 
     /// <summary>
-    /// Compiles the specified razor source document.
+    /// Executes template.
     /// </summary>
-    /// <param name="razorSourceDocument">The razor source document.</param>
-    /// <returns>The compiled script runner.</returns>
-    protected static ScriptRunner<string> Compile(RazorSourceDocument razorSourceDocument)
+    /// <returns>The task that represents the process.</returns>
+    public abstract Task ExecuteAsync();
+
+    /// <summary>
+    /// Executes the compiled template specified by <paramref name="templateType"/> against the given <paramref name="model"/>.
+    /// </summary>
+    /// <typeparam name="TModel">The type of the model.</typeparam>
+    /// <param name="templateType">Type of the template.</param>
+    /// <param name="model">The model.</param>
+    /// <returns>The text rendered by template.</returns>
+    internal static async Task<string> ExecuteAsync<TModel>(Type templateType, TModel model)
     {
-      var razorCodeDocument = RazorCodeDocument.Create(razorSourceDocument);
+      using (var writer = new StringWriter())
+      {
+        var template = (RazorTemplate)Activator.CreateInstance(templateType);
+        template.Model = model;
+        template.WriteLiteralDelegate = writer.Write;
 
-      RazorEngine.Create().Process(razorCodeDocument);
+        await template.ExecuteAsync().ConfigureAwait(false);
 
-      var csharp = razorCodeDocument.GetCSharpDocument();
-
-      return CSharpScript.Create<string>(csharp.GeneratedCode).CreateDelegate();
+        return writer.ToString();
+      }
     }
 
-    private class Globals
+    /// <summary>
+    /// Writes the literal.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    protected void WriteLiteral(string value)
     {
-      public object Model { get; set; }
-
-      public StringWriter Writer { get; } = new StringWriter();
-
-      public void Write<TValue>(TValue value)
-        => this.WriteLiteral(value.ToString());
-
-      public void WriteLiteral(string value)
-        => this.Writer.Write(value);
+      this.WriteLiteralDelegate(value);
     }
+
+    /// <summary>
+    /// Writes the specified <paramref name="value"/>.
+    /// </summary>
+    /// <typeparam name="TValue">The type of the value.</typeparam>
+    /// <param name="value">The value.</param>
+    protected void Write<TValue>(TValue value)
+      => this.WriteLiteral(value.ToString());
   }
 }

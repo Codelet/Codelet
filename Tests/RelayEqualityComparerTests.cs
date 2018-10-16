@@ -1,9 +1,9 @@
 ﻿namespace Codelet
 {
   using System;
+  using AutoFixture.Xunit2;
   using Codelet.Testing;
   using FluentAssertions;
-  using Ploeh.AutoFixture.Xunit2;
   using Xunit;
 
   public class RelayEqualityComparerTests

@@ -4,11 +4,11 @@
   using System.Collections.Generic;
   using System.Linq;
   using System.Threading.Tasks;
+  using AutoFixture.Xunit2;
   using Codelet.Testing;
   using Codelet.Testing.AutoFixture;
   using FluentAssertions;
   using Moq;
-  using Ploeh.AutoFixture.Xunit2;
   using Xunit;
 
   public class DictionaryExtensionsTests
@@ -77,10 +77,10 @@
       public void ConvertsToReadOnlyDictionary(IDictionary<string, int> dictionary, string key, int value)
       {
         var readOnlyDictionary = dictionary.AsReadOnly();
-        readOnlyDictionary.ShouldBeEquivalentTo(dictionary, Because.PassedAsParameter);
+        readOnlyDictionary.Should().BeEquivalentTo(dictionary, Because.PassedAsParameter);
 
         dictionary[key] = value;
-        readOnlyDictionary.ShouldBeEquivalentTo(dictionary, "because read only dictionary should reflect changes");
+        readOnlyDictionary.Should().BeEquivalentTo(dictionary, "because read only dictionary should reflect changes");
       }
 
       [Fact]
@@ -92,7 +92,7 @@
     {
       [Theory, AutoMoqData]
       public void ConvertsToDictionary(IEnumerable<KeyValuePair<string, int>> source)
-        => source.ToDictionary().AsEnumerable().ShouldBeEquivalentTo(source, Because.PassedAsParameter);
+        => source.ToDictionary().AsEnumerable().Should().BeEquivalentTo(source, Because.PassedAsParameter);
 
       [Fact]
       public void ThrowsIfSourceIsNull()
@@ -110,7 +110,7 @@
         var source = Enumerable.Repeat(item, 3);
         var dictionary = source.ToDictionary(comparer.Object);
 
-        dictionary.AsEnumerable().ShouldBeEquivalentTo(source, Because.PassedAsParameter);
+        dictionary.AsEnumerable().Should().BeEquivalentTo(source, Because.PassedAsParameter);
       }
 
       [Theory, AutoMoqData]

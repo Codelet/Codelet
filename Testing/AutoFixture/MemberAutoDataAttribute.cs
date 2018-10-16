@@ -4,7 +4,7 @@
   using System.Collections.Generic;
   using System.Linq;
   using System.Reflection;
-  using Ploeh.AutoFixture.Xunit2;
+  using global::AutoFixture.Xunit2;
   using Xunit;
   using Xunit.Sdk;
 

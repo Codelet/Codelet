@@ -5,9 +5,9 @@
   using System.Linq;
   using System.Threading;
   using System.Threading.Tasks;
+  using AutoFixture.Xunit2;
   using Codelet.Testing.AutoFixture;
   using Moq;
-  using Ploeh.AutoFixture.Xunit2;
   using Xunit;
 
   public class DomainEventHandlerTests
