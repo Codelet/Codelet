@@ -14,6 +14,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Codelet\Codelet.csproj" />
+    <ProjectReference Include="..\Functional\Functional.csproj" />
   </ItemGroup>
 
 </Project>

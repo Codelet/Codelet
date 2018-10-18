@@ -5,6 +5,7 @@
   using System.Threading.Tasks;
   using Codelet.Database.Entities;
   using Codelet.Domain;
+  using Codelet.Functional;
   using Microsoft.Extensions.Logging;
 
   /// <summary>
@@ -14,6 +15,7 @@
   /// <typeparam name="TDatabaseEntityId">The type of the database entity identifier.</typeparam>
   /// <typeparam name="TModel">The type of the model.</typeparam>
   public abstract class DatabaseRepository<TDatabaseEntity, TDatabaseEntityId, TModel>
+    : IRepository<TDatabaseEntityId, TModel>
     where TDatabaseEntity : class, IDatabaseEntity, IDatabaseEntityWithId<TDatabaseEntityId>, IDatabaseEntityWithModel<TModel>
     where TModel : DomainModel
   {
@@ -43,11 +45,7 @@
     /// </summary>
     protected IDbSet<TDatabaseEntity> Entities { get; }
 
-    /// <summary>
-    /// Adds the specified model to the repository.
-    /// </summary>
-    /// <param name="model">The model.</param>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="model" /> == <c>null</c>.</exception>
+    /// <inheritdoc />
     public virtual void Add(TModel model)
     {
       model = model ?? throw new ArgumentNullException(nameof(model));
@@ -58,11 +56,7 @@
       this.Entities.Add(entity);
     }
 
-    /// <summary>
-    /// Removes the specified model from the repository.
-    /// </summary>
-    /// <param name="model">The model.</param>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="model" /> == <c>null</c>.</exception>
+    /// <inheritdoc />
     public virtual void Remove(TModel model)
     {
       model = model ?? throw new ArgumentNullException(nameof(model));
@@ -75,12 +69,11 @@
       this.Entities.Remove(entity);
     }
 
-    /// <summary>
-    /// Finds the model by identifier.
-    /// </summary>
-    /// <param name="id">The identifier.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>The found model.</returns>
+    /// <inheritdoc />
+    public Maybe<TDatabaseEntityId> GetId(TModel model)
+      => this.Entities.FindEntityByModel(model).Select(entity => entity.Id);
+
+    /// <inheritdoc />
     public virtual async Task<Maybe<TModel>> FindByIdAsync(
       TDatabaseEntityId id,
       CancellationToken cancellationToken = default)
@@ -90,7 +83,7 @@
         .FindEntityByIdAsync(id, cancellationToken)
         .ConfigureAwait(false);
 
-      return entity?.Model;
+      return entity.Select(e => e.Model);
     }
 
     /// <summary>

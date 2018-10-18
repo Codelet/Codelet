@@ -16,7 +16,7 @@
   /// <summary>
   /// The factory methods to create Razor templates.
   /// </summary>
-  public static class RazorTemplateFactory
+  public class RazorTemplateFactory
   {
     private static readonly DirectiveDescriptor InheritsDirective
       = DirectiveDescriptor.CreateSingleLineDirective(
@@ -41,7 +41,7 @@
     /// <param name="key">The key.</param>
     /// <param name="source">The source.</param>
     /// <returns>The function that executes the template.</returns>
-    public static Func<TModel, Task<string>> FromString<TModel>(string key, string source)
+    public virtual Func<TModel, Task<string>> FromString<TModel>(string key, string source)
       => FromCache<TModel>(StringTemplates, key, _ => Compile(RazorSourceDocument.Create(source, "<dummy>")));
 
     /// <summary>
@@ -50,7 +50,7 @@
     /// <typeparam name="TModel">The type of the model.</typeparam>
     /// <param name="file">The file.</param>
     /// <returns>The function that executes the template.</returns>
-    public static Func<TModel, Task<string>> FromFile<TModel>(FileInfo file)
+    public virtual Func<TModel, Task<string>> FromFile<TModel>(FileInfo file)
       => FromCache<TModel>(FileTemplates, file.FullName.ToLowerInvariant(), RegisterFileTemplateSource);
 
     private static Func<TModel, Task<string>> FromCache<TModel>(

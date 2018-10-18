@@ -25,7 +25,7 @@
     /// The found entity.
     /// </returns>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="table" /> == <c>null</c>.</exception>
-    public static async Task<TDatabaseEntity> FindEntityByIdAsync<TDatabaseEntity, TDatabaseEntityId>(
+    public static async Task<Maybe<TDatabaseEntity>> FindEntityByIdAsync<TDatabaseEntity, TDatabaseEntityId>(
       this IDbSet<TDatabaseEntity> table,
       TDatabaseEntityId id,
       CancellationToken cancellationToken = default)

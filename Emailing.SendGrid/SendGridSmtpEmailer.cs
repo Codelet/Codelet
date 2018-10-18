@@ -4,6 +4,7 @@
   using System.Net;
   using System.Net.Mail;
   using System.Net.Mime;
+  using System.Threading;
   using System.Threading.Tasks;
 
   /// <summary>
@@ -23,7 +24,7 @@
     private ICredentialsByHost Credentials { get; }
 
     /// <inheritdoc />
-    public async Task SendAsync(MailMessage email)
+    public async Task SendAsync(MailMessage email, CancellationToken cancellationToken = default)
     {
       email = email ?? throw new ArgumentNullException(nameof(email));
 

@@ -2,6 +2,7 @@
 {
   using System;
   using System.Net.Mail;
+  using System.Threading;
   using System.Threading.Tasks;
 
   /// <summary>
@@ -33,11 +34,12 @@
     /// Creates and sends <see cref="MailMessage" /> for the given <paramref name="model" />.
     /// </summary>
     /// <param name="model">The model.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The task that represents the process.</returns>
-    public async Task SendAsync(TEmailModel model)
+    public virtual async Task SendAsync(TEmailModel model, CancellationToken cancellationToken = default)
     {
       var email = await this.Factory.CreateEmailAsync(model).ConfigureAwait(false);
-      await this.EmailsSender.SendAsync(email).ConfigureAwait(false);
+      await this.EmailsSender.SendAsync(email, cancellationToken).ConfigureAwait(false);
     }
   }
 }

@@ -7,6 +7,7 @@
   using System.Net;
   using System.Net.Http;
   using System.Net.Mail;
+  using System.Threading;
   using System.Threading.Tasks;
   using global::SendGrid;
   using global::SendGrid.Helpers.Mail;
@@ -29,7 +30,7 @@
     private string ApiKey { get; }
 
     /// <inheritdoc />
-    public async Task SendAsync(MailMessage email)
+    public async Task SendAsync(MailMessage email, CancellationToken cancellationToken = default)
     {
       email = email ?? throw new ArgumentNullException(nameof(email));
 
@@ -68,7 +69,7 @@
       };
 
       var response = await new SendGridClient(this.ApiKey)
-        .SendEmailAsync(sendGridEmail)
+        .SendEmailAsync(sendGridEmail, cancellationToken)
         .ConfigureAwait(false);
 
       if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Accepted)
