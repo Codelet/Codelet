@@ -8,8 +8,8 @@
   <ItemGroup>
     <PackageReference Include="AutoFixture.AutoMoq" Version="4.5.0" />
     <PackageReference Include="AutoFixture.Xunit2" Version="4.5.0" />
-    <PackageReference Include="Codelet.Properties.Library" Version="0.0.44" PrivateAssets="All" />
-    <PackageReference Include="Codelet.Properties.NuGet" Version="0.0.44" PrivateAssets="All" />
+    <PackageReference Include="Codelet.Properties.Library" Version="0.0.47" PrivateAssets="All" />
+    <PackageReference Include="Codelet.Properties.NuGet" Version="0.0.47" PrivateAssets="All" />
     <PackageReference Include="FluentAssertions" Version="5.4.2" />
     <PackageReference Include="Moq" Version="4.10.0" />
   </ItemGroup>
