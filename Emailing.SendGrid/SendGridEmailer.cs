@@ -7,6 +7,7 @@
   using System.Net;
   using System.Net.Http;
   using System.Net.Mail;
+  using System.Net.Mime;
   using System.Threading;
   using System.Threading.Tasks;
   using global::SendGrid;
@@ -14,23 +15,49 @@
   using Newtonsoft.Json.Linq;
 
   /// <summary>
-  /// Implements <see cref="IEmailer"/> using SendGrid HTTP API.
+  /// Sends <see cref="MailMessage"/> using SendGrid over SMTP or HTTP protocols.
   /// </summary>
-  public class SendGridHttpEmailer : IEmailer
+  public class SendGridEmailer
   {
     /// <summary>
-    /// Initializes a new instance of the <see cref="SendGridHttpEmailer"/> class.
+    /// Initializes a new instance of the <see cref="SendGridEmailer"/> class.
     /// </summary>
     /// <param name="apiKey">The SendGrid API key.</param>
-    public SendGridHttpEmailer(string apiKey)
+    public SendGridEmailer(string apiKey)
     {
       this.ApiKey = apiKey;
     }
 
     private string ApiKey { get; }
 
-    /// <inheritdoc />
-    public async Task SendAsync(MailMessage email, CancellationToken cancellationToken = default)
+    /// <summary>
+    /// Sends the <paramref name="email"/> over SMTP protocol.
+    /// </summary>
+    /// <param name="email">The email.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The task that represents the process.</returns>
+    public async Task SendOverSmtpAsync(MailMessage email, CancellationToken cancellationToken = default)
+    {
+      email = email ?? throw new ArgumentNullException(nameof(email));
+
+      using (var client = new SmtpClient("smtp.sendgrid.net", 587)
+      {
+        Credentials = new NetworkCredential("apiKey", this.ApiKey),
+        EnableSsl = true,
+      })
+      {
+        email.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(email.Body, null, MediaTypeNames.Text.Html));
+        await client.SendMailAsync(email).ConfigureAwait(false);
+      }
+    }
+
+    /// <summary>
+    /// Sends the <paramref name="email"/> over HTTP protocol.
+    /// </summary>
+    /// <param name="email">The email.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The task that represents the process.</returns>
+    public async Task SendOverHttpAsync(MailMessage email, CancellationToken cancellationToken = default)
     {
       email = email ?? throw new ArgumentNullException(nameof(email));
 

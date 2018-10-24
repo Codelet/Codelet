@@ -20,7 +20,7 @@
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="emailsSender" /> == <c>null</c>.</exception>
     public Emailer(
       IEmailsFactory<TEmailModel> factory,
-      IEmailer emailsSender)
+      EmailsSender emailsSender)
     {
       this.Factory = factory ?? throw new ArgumentNullException(nameof(factory));
       this.EmailsSender = emailsSender ?? throw new ArgumentNullException(nameof(emailsSender));
@@ -28,7 +28,7 @@
 
     private IEmailsFactory<TEmailModel> Factory { get; }
 
-    private IEmailer EmailsSender { get; }
+    private EmailsSender EmailsSender { get; }
 
     /// <summary>
     /// Creates and sends <see cref="MailMessage" /> for the given <paramref name="model" />.
@@ -39,7 +39,7 @@
     public virtual async Task SendAsync(TEmailModel model, CancellationToken cancellationToken = default)
     {
       var email = await this.Factory.CreateEmailAsync(model).ConfigureAwait(false);
-      await this.EmailsSender.SendAsync(email, cancellationToken).ConfigureAwait(false);
+      await this.EmailsSender(email, cancellationToken).ConfigureAwait(false);
     }
   }
 }
