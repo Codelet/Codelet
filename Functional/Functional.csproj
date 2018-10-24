@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codelet.Properties.Library" Version="0.0.47" PrivateAssets="All" />
-    <PackageReference Include="Codelet.Properties.NuGet" Version="0.0.47" PrivateAssets="All" />
+    <PackageReference Include="Codelet.Properties.Library" Version="1.0.0-build.49" PrivateAssets="All" />
+    <PackageReference Include="Codelet.Properties.NuGet" Version="1.0.0-build.49" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
