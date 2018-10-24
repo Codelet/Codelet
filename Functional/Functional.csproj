@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Codelet.Functional</PackageId>
     <PackageVersion></PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codelet.Properties.Library" Version="0.0.39" PrivateAssets="All" />
-    <PackageReference Include="Codelet.Properties.NuGet" Version="0.0.39" PrivateAssets="All" />
+    <PackageReference Include="Codelet.Properties.Library" Version="1.0.0-build.50" PrivateAssets="All" />
+    <PackageReference Include="Codelet.Properties.NuGet" Version="1.0.0-build.50" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

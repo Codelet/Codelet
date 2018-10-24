@@ -3,7 +3,7 @@
   using System.Linq;
 
   /// <summary>
-  /// The database entity configuration
+  /// The database entity configuration.
   /// </summary>
   /// <typeparam name="TEntity">The type of the entity.</typeparam>
   public interface IDatabaseEntityConfiguration<TEntity>

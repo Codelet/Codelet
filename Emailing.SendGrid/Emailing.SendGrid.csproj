@@ -6,13 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codelet.Properties.Library" Version="0.0.39" PrivateAssets="All" />
-    <PackageReference Include="Codelet.Properties.NuGet" Version="0.0.39" PrivateAssets="All" />
+    <PackageReference Include="Codelet.Properties.Library" Version="1.0.0-build.50" PrivateAssets="All" />
+    <PackageReference Include="Codelet.Properties.NuGet" Version="1.0.0-build.50" PrivateAssets="All" />
     <PackageReference Include="Sendgrid" Version="9.10.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Emailing\Emailing.csproj" />
   </ItemGroup>
 
 </Project>
